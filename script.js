@@ -8,28 +8,37 @@ function getOrientation() {
 		document.getElementById("orient").innerText = "Gama: " + gamma + 
 		"\nBeta: " + beta ;
 	}
+	window.onresize = createGameBox;
 }
 
-function createGameBox(x,y) {
+function createGameBox() {
+
+	var width = window.innerWidth / 16;
+	var height = window.innerHeight / 16;
+	width = Math.ceil(Math.min(width, height));
+	height = width;
+	console.log("PX height x width: " + window.innerHeight + " x " + window.innerWidth );
+	console.log("EM height x width: " + height + " x " + width);
+
 	var newBox = "";
 	var margin = "";
-	for(var i = 1; i <= y; i ++){
+	for(var i = 1; i <= width; i ++){
 		margin += "_";
 	}
-	newBox += " " + margin + "\n";
+	newBox += "" + margin + "\n";
 
 	var line = "|";
-	for(var i = 1; i <= y; i ++){
+	for(var i = 1; i <= width; i ++){
 		line += " ";
 	}
 	line += "|\n";
 
-	for(var i = 1; i < x; i ++){
+	for(var i = 1; i < height; i ++){
 		newBox += line;
 	}
 	newBox += "|" + margin + "|";
 	document.getElementById("gameBox").innerText = newBox;
-	document.getElementById("gameBox").setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: 'Courier New', Courier, monospace; white-space: pre;");
+	document.getElementById("gameBox").setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: 'Courier New', Courier, monospace; font-size: 16px; white-space: pre;");
 }
 
 function insertCharAt(c,x,y) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  dir="ltr">
+<html lang="en">
 
 <head>
 		<meta charset="utf-8">
@@ -13,14 +13,17 @@
 <body>
 
 <button onclick="getOrientation()">Orientation</button>
-<button onclick="createGameBox(32,32)">Generate Game Box</button>
+<button onclick="createGameBox()">Generate Game Box</button>
 <button onclick="addPlayer()">Add player</button>
 <button onclick="generateTerrain()">Generate Terrain</button>
 <button onclick="stopGame()">Stop</button>
 <button onclick="startGame()">Start</button>
 
 <p id="orient"></p>
-<p id="gameBox"></p>
+
+<div class="box"> 
+	<p id="gameBox"></p>
+</div>
 
 </body>
 </html>
