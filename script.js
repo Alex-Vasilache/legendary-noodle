@@ -5,6 +5,7 @@ var gameSize = 16;
 var playerX;
 var playerY;
 var initialBeta = -200;
+var initialGamma = -200;
 var sensitivity = 1/2;
 var position = 0;
 var score = 0;
@@ -54,8 +55,12 @@ function setUpOrientation() {
 		var gamma = Math.round(event.gamma); // [-90, 90]
 		//document.getElementById("orient").innerText = "Gama: " + gamma + "\nBeta: " + beta ;
 		//TODO if in landscape change to gamma
-		if(initialBeta == -200)
+		if(initialBeta == -200){
 			initialBeta = beta;
+			initialGamma = gamma;
+		}
+		
+		speed = speed + (initialGamma - gamma) * Math.pow(sensitivity,4);
 		tilt(beta - initialBeta);
 	}
 }
