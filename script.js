@@ -1,7 +1,6 @@
 var stop = 1;
 var resize = 1;
 var speed = 100;
-var augSpeed = 100;
 var gameSize = 16;
 var playerX;
 var playerY;
@@ -61,7 +60,6 @@ function setUpOrientation() {
 			initialGamma = gamma;
 		}
 		
-		augSpeed = speed + (initialGamma - gamma) * Math.pow(sensitivity,10);
 		tilt(beta - initialBeta);
 	}
 }
@@ -151,9 +149,9 @@ function generateTerrain() {
 		score = Math.floor(score + 1 + (100 - speed) * 1/50);
 		if(speed > 40)
 			speed -= 1/30;
-		document.getElementById("hint").innerText = "Speed: " +  Math.floor(140 - augSpeed);
+		document.getElementById("hint").innerText = "Speed: " +  Math.floor(140 - speed);
 		if(generateColumn())
-			setTimeout(generateTerrain, augSpeed);
+			setTimeout(generateTerrain, speed);
 		else {
 			document.getElementById("restart").disabled = false;
 			stop == 1;
