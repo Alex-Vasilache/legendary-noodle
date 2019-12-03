@@ -60,7 +60,7 @@ function setUpOrientation() {
 			initialGamma = gamma;
 		}
 		
-		speed = speed + (initialGamma - gamma) * Math.pow(sensitivity,4);
+		speed = speed + (initialGamma - gamma) * Math.pow(sensitivity,10);
 		tilt(beta - initialBeta);
 	}
 }
