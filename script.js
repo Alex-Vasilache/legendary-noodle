@@ -5,7 +5,7 @@ var gameSize = 16;
 var playerX;
 var playerY;
 var initialBeta = -200;
-var sensitivity = 1/4;
+var sensitivity = 1/2;
 var score = 0;
 
 
@@ -18,8 +18,7 @@ function start() {
 			this.createGameBox();
 		}
 	}
-	document.getElementById("orient").innerText = "Gama: null" + 
-		"\nBeta: null";
+	//document.getElementById("orient").innerText = "Gama: null" + "\nBeta: null";
 	
 	createGameBox();
 }
@@ -32,17 +31,13 @@ function startGame() {
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	generateTerrain();
 	setUpOrientation();
-	
-	sensitivity = document.getElementById("input").value;
-	document.getElementById("sens").innerText = "Sensitivity: " + sensitivity;
 }
 
 function setUpOrientation() {
 	window.ondeviceorientation = function(){
 		var beta = Math.round(event.beta); // [-180, 180]
 		var gamma = Math.round(event.gamma); // [-90, 90]
-		document.getElementById("orient").innerText = "Gama: " + gamma + 
-		"\nBeta: " + beta ;
+		//document.getElementById("orient").innerText = "Gama: " + gamma + "\nBeta: " + beta ;
 		//TODO if in landscape change to gamma
 		if(initialBeta == -200)
 			initialBeta = beta;
@@ -119,8 +114,10 @@ function tilt(amount) {
 
 }
 
-function stopGame() {
-	stop = 1;
+function restart() {
+	score = 0;
+	createGameBox();
+	startGame();
 }
 
 function generateTerrain() {
