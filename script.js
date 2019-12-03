@@ -44,6 +44,8 @@ function startGame() {
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	generateTerrain();
 	document.getElementById("start").disabled = true;
+	document.getElementById("slider").hidden = true;
+	document.getElementById("hint").hidden = true;
 }
 
 function setUpOrientation() {
