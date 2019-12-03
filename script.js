@@ -130,7 +130,7 @@ function generateTerrain() {
 		position ++;
 		score = Math.floor(score + 1 + (100 - speed) * 1/50);
 		if(speed > 40)
-			speed -= 0.03;
+			speed -= 1/30;
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
 		else
