@@ -1,23 +1,7 @@
-var geo = document.getElementById("geo");
 var orientation = document.getElementById("orient");
-var motion = document.getElementById("motion");
-var point = document.getElementById("point");
 var gameBox = document.getElementById("gameBox");
 var stop = 0;
 var speed = 100;
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    geo.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
-
-function showPosition(position) {
-	geo.innerHTML = "Latitude: " + position.coords.latitude +
-  "<br>Longitude: " + position.coords.longitude;
-}
 
 function getOrientation() {
 	window.ondeviceorientation = function(){
@@ -25,51 +9,6 @@ function getOrientation() {
 		var gamma = Math.round(event.gamma); // [-90, 90]
 		orientation.innerText = "Gama: " + gamma + 
 		"\nBeta: " + beta ;
-	}
-
-	/*
-	if (window.DeviceOrientationEvent) {
-		window.addEventListener('deviceorientation', function(eventData) {
-			// gamma is the left-to-right tilt in degrees
-			orientation.innerHTML = "Gama: " + eventData.gamma + 
-			"<br>Beta: " + eventData.beta + 
-			"<br>Alpha: " + eventData.alpha;
-			
-			point.setAttribute("style", "position: absolute; top: " + 
-			(eventData.beta * 0.27 + 50)+ "%; left: " +
-			(eventData.alpha * 0.27 + 50)+ "%;");
-			
-			
-		},false);
-	}
-	*/
-	
-}
-
-function getMotion() {
-	if (window.DeviceMotionEvent) {
-		window.addEventListener('devicemotion', function(eventData) {   
-			// Acceleration
-			
-			point.setAttribute("style", "position: absolute; top: " + 
-			(eventData.acceleration.y * 10 + 50)+ "%; left: " +
-			(eventData.acceleration.x * 10 + 50)+ "%;");
-			/*
-
-			motion.innerHTML = "acceleration.x: " + eventData.acceleration.x + 
-			"<br>acceleration.y: " + eventData.acceleration.y + 
-			"<br>acceleration.z: " + eventData.acceleration.z + 
-		
-			// Acceleration including gravity
-			"<br>accelerationIncludingGravity.x: " + eventData.accelerationIncludingGravity.x + 
-			"<br>accelerationIncludingGravity.y: " + eventData.accelerationIncludingGravity.y + 
-			"<br>accelerationIncludingGravity.z: " + eventData.accelerationIncludingGravity.z + 
-	
-			// Rotation rate
-			"<br>rotationRate.alpha: " + eventData.rotationRate.alpha + 
-			"<br>rotationRate.beta: " + eventData.rotationRate.beta + 
-			"<br>rotationRate.gamma: " + eventData.rotationRate.gamma;*/
-		}, false);
 	}
 }
 
