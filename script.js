@@ -43,6 +43,7 @@ function setUpOrientation() {
 		var gamma = Math.round(event.gamma); // [-90, 90]
 		document.getElementById("orient").innerText = "Gama: " + gamma + 
 		"\nBeta: " + beta ;
+		//TODO if in landscape change to gamma
 		if(initialBeta == -200)
 			initialBeta = beta;
 		tilt(beta - initialBeta);
@@ -127,7 +128,7 @@ function generateTerrain() {
 	else {
 		document.getElementById("score").innerText= "Score: " + score;
 		score ++;
-		generateObstacleColumn();
+		generateColumn();
 		setTimeout(generateTerrain, speed);
 	}
 }
@@ -156,48 +157,38 @@ function generateTerrainBox() {
 		
 }
 
-function generateObstacleColumn() {
-
-	var lines = gameBox.innerText.split("\n");
-	var newBox = "";
+function generateColumn() {
+	var lines = document.getElementById("gameBox").innerText.split("\n");
+	var newBox = lines[0] + "\n";
 
 	gap = Math.round(Math.random() * (gameSize - 3));
-
 	
-	newBox += lines[0] + "\n";
+	for(var i = 1; i <= gameSize; i ++) {
+		newBox += "|";
 
-	if(score%10 == 0) {
+		//Move box one unit to the left
+		if(i != playerX)
+			newBox += lines[i].substr(2,gameSize-1);
+		else
+			newBox += ">" + lines[i].substr(3, gameSize-2);
 
-		for(var i = 1; i < lines.length ; i++) {
-			var left = lines[i].substr(0,2);
-			var right = lines[i].substr(3, lines[i].length-4);
-
+		if(score%10 == 0) {
 			if(i > gap  && i <= gap + 3)
 				if(i == gameSize)
-					newBox += left + right + "_|";
+					newBox += "_|";
 				else
-					newBox += left + right + " |";
+					newBox += " |";
 			else
-				newBox += left + right + "||";
-
-			if(i != lines.length - 1)
-				newBox += "\n";
-		}
-	} else {
-
-		for(var i = 1; i < lines.length ; i++) {
-			var left = lines[i].substr(0,2);
-			var right = lines[i].substr(3, lines[i].length-4);
-
+				newBox += "||";
+		} else {
 			if(i == gameSize)
-				newBox += left + right + "_|";
-			else
-				newBox += left + right + " |";
-
-			if(i != lines.length - 1)
-				newBox += "\n";
+					newBox += "_|";
+				else
+					newBox += " |";
 		}
+		
+		if(i != gameSize )
+			newBox += "\n";
 	}
-
 	document.getElementById("gameBox").innerText = newBox;
 }
