@@ -4,6 +4,8 @@ var speed = 100;
 var gameSize = 16;
 var playerX;
 var playerY;
+var initialBeta = -200;
+var sensitivity = 1/16;
 
 window.onload = start;
 
@@ -35,7 +37,9 @@ function setUpOrientation() {
 		var gamma = Math.round(event.gamma); // [-90, 90]
 		document.getElementById("orient").innerText = "Gama: " + gamma + 
 		"\nBeta: " + beta ;
-		
+		if(initialBeta == -200)
+			initialBeta = beta;
+		tilt(beta - initialBeta);
 	}
 }
 
@@ -94,6 +98,18 @@ function movePlayerAt(x,y) {
 	playerX = x;
 	playerY = y;
 	insertCharAt('>', playerX, playerY);
+}
+
+function tilt(amount) {
+
+	amount = amount * sensitivity;
+
+	if(amount < 0)
+		for(var i = 0; i < -amount; i++)
+			up();
+	else 
+		for(var i = 0; i < amount; i++)
+			down();
 }
 
 function up(){
