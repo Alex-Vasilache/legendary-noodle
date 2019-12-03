@@ -65,7 +65,6 @@ function createGameBox() {
 	var width = window.innerWidth / 16;
 	var height = window.innerHeight / 16;
 	gameSize = Math.ceil(Math.min(width, height));
-	console.log(gameSize);
 
 	var newBox = "";
 	var margin = "";
