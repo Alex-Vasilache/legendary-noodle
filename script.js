@@ -6,6 +6,7 @@ var playerX;
 var playerY;
 var initialBeta = -200;
 var sensitivity = 1/2;
+var position = 0;
 var score = 0;
 
 
@@ -117,6 +118,7 @@ function tilt(amount) {
 
 function restart() {
 	score = 0;
+	position = 0;
 	createGameBox();
 	startGame();
 }
@@ -125,9 +127,10 @@ function generateTerrain() {
 	if(stop == 1){	}
 	else {
 		document.getElementById("score").innerText= "Score: " + score;
-		score ++;
-		if(speed > 30)
-			speed -= 0.1;
+		position ++;
+		score = Math.floor(score + 1 + (100 - speed) * 1/50);
+		if(speed > 40)
+			speed -= 0.03;
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
 		else
@@ -180,7 +183,7 @@ function generateColumn() {
 
 			
 
-		if(score%10 == 0) {
+		if(position % 10 == 0) {
 			if(i > gap  && i <= gap + 3)
 				if(i == gameSize)
 					newBox += "_|";
