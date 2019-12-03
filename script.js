@@ -128,8 +128,10 @@ function generateTerrain() {
 	else {
 		document.getElementById("score").innerText= "Score: " + score;
 		score ++;
-		generateColumn();
-		setTimeout(generateTerrain, speed);
+		if(generateColumn())
+			setTimeout(generateTerrain, speed);
+		else
+			stop == 1;
 	}
 }
 
@@ -169,8 +171,14 @@ function generateColumn() {
 		//Move box one unit to the left
 		if(i != playerX)
 			newBox += lines[i].substr(2,gameSize-1);
-		else
-			newBox += ">" + lines[i].substr(3, gameSize-2);
+		else {
+			if(lines[i][2] == "|")
+				return false;
+			else
+				newBox += ">" + lines[i].substr(3, gameSize-2);
+		}
+
+			
 
 		if(score%10 == 0) {
 			if(i > gap  && i <= gap + 3)
@@ -191,4 +199,5 @@ function generateColumn() {
 			newBox += "\n";
 	}
 	document.getElementById("gameBox").innerText = newBox;
+	return true;
 }
