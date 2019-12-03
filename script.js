@@ -16,7 +16,11 @@ function start() {
 			this.createGameBox();
 		}
 	}
+	document.getElementById("orient").innerText = "Gama: null" + 
+		"\nBeta: null";
+	document.getElementById("sens").innerText = "Sensitivity: " + sensitivity;
 	createGameBox();
+	
 }
 
 function startGame() {
@@ -30,8 +34,6 @@ function startGame() {
 }
 
 function setUpOrientation() {
-	document.getElementById("orient").innerText = "Gama: null" + 
-		"\nBeta: null";
 	window.ondeviceorientation = function(){
 		var beta = Math.round(event.beta); // [-180, 180]
 		var gamma = Math.round(event.gamma); // [-90, 90]
