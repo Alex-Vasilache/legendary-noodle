@@ -125,6 +125,8 @@ function generateTerrain() {
 	else {
 		document.getElementById("score").innerText= "Score: " + score;
 		score ++;
+		if(speed > 50)
+			speed -= 0.01;
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
 		else
