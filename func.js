@@ -20,20 +20,30 @@ function showPosition(position) {
 }
 
 function getOrientation() {
+	window.ondeviceorientation = function(){
+		var beta = Math.round(event.beta); // [-180, 180]
+		var gamma = Math.round(event.gamma); // [-90, 90]
+		orientation.innerText = "Gama: " + gamma + 
+		"\nBeta: " + beta ;
+	}
+
+	/*
 	if (window.DeviceOrientationEvent) {
 		window.addEventListener('deviceorientation', function(eventData) {
 			// gamma is the left-to-right tilt in degrees
 			orientation.innerHTML = "Gama: " + eventData.gamma + 
 			"<br>Beta: " + eventData.beta + 
 			"<br>Alpha: " + eventData.alpha;
-			/*
+			
 			point.setAttribute("style", "position: absolute; top: " + 
 			(eventData.beta * 0.27 + 50)+ "%; left: " +
 			(eventData.alpha * 0.27 + 50)+ "%;");
-			*/
 			
-		}, false);
+			
+		},false);
 	}
+	*/
+	
 }
 
 function getMotion() {
