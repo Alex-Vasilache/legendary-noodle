@@ -14,25 +14,36 @@ window.onload = start;
 
 function start() {
 	
+	document.getElementById("restart").disabled = true;
 	window.onresize = function() {
 		if (resize){
 			this.createGameBox();
 		}
 	}
 	//document.getElementById("orient").innerText = "Gama: null" + "\nBeta: null";
-	
 	createGameBox();
+	
+	playerX = Math.ceil(gameSize/2);
+	playerY = 1;
+	movePlayerAt(Math.ceil(gameSize/2), 1);
+	
+	setUpOrientation();
+	document.getElementById("slider").oninput = function () {
+		sensitivity = this.value/100;
+		document.getElementById("score").innerText= "Sensitivity: " + sensitivity;
+	}
 }
 
 function startGame() {
 	resize = 0;
 	stop = 0;
 	speed = 100;
+	createGameBox();
 	playerX = Math.ceil(gameSize/2);
 	playerY = 1;
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	generateTerrain();
-	setUpOrientation();
+	document.getElementById("start").disabled = true;
 }
 
 function setUpOrientation() {
@@ -118,9 +129,11 @@ function tilt(amount) {
 
 function restart() {
 	score = 0;
-	position = 0;
+	position = 0;	
+	document.getElementById("restart").disabled = true;
 	createGameBox();
 	startGame();
+	
 }
 
 function generateTerrain() {
@@ -133,8 +146,10 @@ function generateTerrain() {
 			speed -= 1/30;
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
-		else
+		else {
+			document.getElementById("restart").disabled = false;
 			stop == 1;
+		}
 	}
 }
 
