@@ -2,22 +2,32 @@ var stop = 1;
 var resize = 1;
 var speed = 100;
 var gameSize = 16;
+var playerX;
+var playerY;
 
 window.onload = start;
 
 function start() {
-	getOrientation();
+	
+	window.onresize = function() {
+		if (resize){
+			this.createGameBox();
+		}
+	}
 	createGameBox();
 }
 
 function startGame() {
 	resize = 0;
 	stop = 0;
-	addPlayer();
+	playerX = Math.ceil(gameSize/2);
+	playerY = 1;
+	movePlayerAt(Math.ceil(gameSize/2), 1);
 	generateTerrain();
+	setUpOrientation();
 }
 
-function getOrientation() {
+function setUpOrientation() {
 	document.getElementById("orient").innerText = "Gama: null" + 
 		"\nBeta: null";
 	window.ondeviceorientation = function(){
@@ -25,11 +35,7 @@ function getOrientation() {
 		var gamma = Math.round(event.gamma); // [-90, 90]
 		document.getElementById("orient").innerText = "Gama: " + gamma + 
 		"\nBeta: " + beta ;
-	}
-	window.onresize = function() {
-		if (resize){
-			this.createGameBox();
-		}
+		
 	}
 }
 
@@ -80,8 +86,24 @@ function insertCharAt(c,x,y) {
 	document.getElementById("gameBox").innerText = newBox;
 }
 
-function addPlayer() { 
-	insertCharAt('>', Math.ceil(gameSize/2) ,1);
+function movePlayerAt(x,y) {
+	if(playerX == gameSize)
+		insertCharAt('_', playerX, playerY);
+	else
+		insertCharAt(' ', playerX, playerY);
+	playerX = x;
+	playerY = y;
+	insertCharAt('>', playerX, playerY);
+}
+
+function up(){
+	if(playerX-1 > 0)
+		movePlayerAt(playerX-1,playerY);
+}
+
+function down(){
+	if(playerX+1 <= gameSize)
+		movePlayerAt(playerX+1,playerY);
 }
 
 function stopGame() {
