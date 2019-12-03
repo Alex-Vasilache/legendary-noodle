@@ -45,7 +45,7 @@ function startGame() {
 	generateTerrain();
 	document.getElementById("start").disabled = true;
 	document.getElementById("slider").hidden = true;
-	document.getElementById("hint").hidden = true;
+	//document.getElementById("hint").hidden = true;
 }
 
 function setUpOrientation() {
@@ -145,6 +145,7 @@ function generateTerrain() {
 		score = Math.floor(score + 1 + (100 - speed) * 1/50);
 		if(speed > 40)
 			speed -= 1/30;
+		document.getElementById("hint").innerText = "Speed: " +  Math.floor(140 - speed);
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
 		else {
