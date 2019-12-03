@@ -5,7 +5,7 @@ var gameSize = 16;
 var playerX;
 var playerY;
 var initialBeta = -200;
-var sensitivity = 1/16;
+var sensitivity = 1/32;
 
 window.onload = start;
 
