@@ -1,39 +1,59 @@
-var stop = 0;
+var stop = 1;
+var resize = 1;
 var speed = 100;
+var gameSize = 16;
+
+window.onload = start;
+
+function start() {
+	getOrientation();
+	createGameBox();
+}
+
+function startGame() {
+	resize = 0;
+	stop = 0;
+	addPlayer();
+	generateTerrain();
+}
 
 function getOrientation() {
+	document.getElementById("orient").innerText = "Gama: null" + 
+		"\nBeta: null";
 	window.ondeviceorientation = function(){
 		var beta = Math.round(event.beta); // [-180, 180]
 		var gamma = Math.round(event.gamma); // [-90, 90]
 		document.getElementById("orient").innerText = "Gama: " + gamma + 
 		"\nBeta: " + beta ;
 	}
-	window.onresize = createGameBox;
+	window.onresize = function() {
+		if (resize){
+			this.createGameBox();
+		}
+	}
 }
 
 function createGameBox() {
 
 	var width = window.innerWidth / 16;
 	var height = window.innerHeight / 16;
-	width = Math.ceil(Math.min(width, height));
-	height = width;
-	console.log("PX height x width: " + window.innerHeight + " x " + window.innerWidth );
-	console.log("EM height x width: " + height + " x " + width);
+	gameSize = Math.ceil(Math.min(width, height));
+	console.log(gameSize);
 
 	var newBox = "";
 	var margin = "";
-	for(var i = 1; i <= width; i ++){
+	for(var i = 1; i <= gameSize; i ++){
 		margin += "_";
 	}
 	newBox += "" + margin + "\n";
 
 	var line = "|";
-	for(var i = 1; i <= width; i ++){
+	for(var i = 1; i <= gameSize; i ++){
 		line += " ";
 	}
 	line += "|\n";
 
-	for(var i = 1; i < height; i ++){
+	for(var i = 1; i < gameSize; i ++){
 		newBox += line;
 	}
 	newBox += "|" + margin + "|";
@@ -42,7 +62,7 @@ function createGameBox() {
 }
 
 function insertCharAt(c,x,y) {
-	var lines = gameBox.innerText.split("\n");
+	var lines = document.getElementById("gameBox").innerText.split("\n");
 	var newBox = "";
 	for(var i = 0; i < lines.length; i++){
 
@@ -61,28 +81,19 @@ function insertCharAt(c,x,y) {
 }
 
 function addPlayer() { 
-	insertCharAt('>',16,1);
+	insertCharAt('>', Math.floor(gameSize/2) ,1);
 }
 
 function stopGame() {
 	stop = 1;
 }
 
-function startGame() {
-	stop = 0;
-}
-
 function generateTerrain() {
-	
-	var check = function(){
-		if(stop == 1){	}
-		else {
-			generateTerrainBox();
-			setTimeout(check, speed); 
-		}
+	if(stop == 1){	}
+	else {
+		generateTerrainBox();
+		setTimeout(generateTerrain, speed); 
 	}
-	
-	check();
 }
 
 function generateTerrainBox() {
@@ -91,7 +102,7 @@ function generateTerrainBox() {
 		var newBox = "";
 		for(var i = 0; i < lines.length; i++){
 
-		if(i != 16)
+		if(i != Math.floor(gameSize/2))
 			newBox += lines[i];
 		else {
 			var left = lines[i].substr(0,2);
