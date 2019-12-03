@@ -66,9 +66,11 @@ function setUpOrientation() {
 
 function createGameBox() {
 
-	var width = window.innerWidth / 16;
-	var height = window.innerHeight / 16;
-	gameSize = Math.ceil(Math.min(width, height));
+	var width = window.innerWidth / 26;
+	var height = window.innerHeight / 26;
+	var font = Math.ceil(Math.min(width, height));
+	gameSize = 25;
+	
 
 	var newBox = "";
 	var margin = "";
@@ -88,7 +90,7 @@ function createGameBox() {
 	}
 	newBox += "|" + margin + "|";
 	document.getElementById("gameBox").innerText = newBox;
-	document.getElementById("gameBox").setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: 'Courier New', Courier, monospace; font-size: 16px; white-space: pre;");
+	document.getElementById("gameBox").setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: 'Courier New', Courier, monospace; font-size: " + font + "px; white-space: pre;");
 }
 
 function insertCharAt(c,x,y) {
