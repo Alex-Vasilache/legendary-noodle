@@ -5,3 +5,8 @@
 #gameBox {
     font-size: 16px;
 }
+
+#score {
+    text-align: center;
+    font-size: 2em;
+}

@@ -26,6 +26,7 @@ function start() {
 function startGame() {
 	resize = 0;
 	stop = 0;
+	speed = 100;
 	playerX = Math.ceil(gameSize/2);
 	playerY = 1;
 	movePlayerAt(Math.ceil(gameSize/2), 1);
@@ -125,8 +126,8 @@ function generateTerrain() {
 	else {
 		document.getElementById("score").innerText= "Score: " + score;
 		score ++;
-		if(speed > 50)
-			speed -= 0.01;
+		if(speed > 30)
+			speed -= 0.1;
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
 		else
