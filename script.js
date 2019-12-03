@@ -18,9 +18,8 @@ function start() {
 	}
 	document.getElementById("orient").innerText = "Gama: null" + 
 		"\nBeta: null";
-	document.getElementById("sens").innerText = "Sensitivity: " + sensitivity;
-	createGameBox();
 	
+	createGameBox();
 }
 
 function startGame() {
@@ -31,6 +30,9 @@ function startGame() {
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	generateTerrain();
 	setUpOrientation();
+	
+	sensitivity = document.getElementById("input").value;
+	document.getElementById("sens").innerText = "Sensitivity: " + sensitivity;
 }
 
 function setUpOrientation() {
