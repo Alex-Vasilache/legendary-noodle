@@ -1,5 +1,3 @@
-var orientation = document.getElementById("orient");
-var gameBox = document.getElementById("gameBox");
 var stop = 0;
 var speed = 100;
 
@@ -7,7 +5,7 @@ function getOrientation() {
 	window.ondeviceorientation = function(){
 		var beta = Math.round(event.beta); // [-180, 180]
 		var gamma = Math.round(event.gamma); // [-90, 90]
-		orientation.innerText = "Gama: " + gamma + 
+		document.getElementById("orient").innerText = "Gama: " + gamma + 
 		"\nBeta: " + beta ;
 	}
 }
@@ -30,8 +28,8 @@ function createGameBox(x,y) {
 		newBox += line;
 	}
 	newBox += "|" + margin + "|";
-	gameBox.innerText = newBox;
-	gameBox.setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: 'Courier New', Courier, monospace; white-space: pre;");
+	document.getElementById("gameBox").innerText = newBox;
+	document.getElementById("gameBox").setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: 'Courier New', Courier, monospace; white-space: pre;");
 }
 
 function insertCharAt(c,x,y) {
@@ -50,7 +48,7 @@ function insertCharAt(c,x,y) {
 		if(i != lines.length - 1)
 			newBox += "\n";
 	}
-	gameBox.innerText = newBox;
+	document.getElementById("gameBox").innerText = newBox;
 }
 
 function addPlayer() { 
@@ -98,6 +96,6 @@ function generateTerrainBox() {
 		if(i != lines.length - 1)
 			newBox += "\n";
 		}
-		gameBox.innerText = newBox;
+		document.getElementById("gameBox").innerText = newBox;
 		
 }
