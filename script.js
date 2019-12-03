@@ -81,7 +81,7 @@ function insertCharAt(c,x,y) {
 }
 
 function addPlayer() { 
-	insertCharAt('>', Math.floor(gameSize/2) ,1);
+	insertCharAt('>', Math.ceil(gameSize/2) ,1);
 }
 
 function stopGame() {
@@ -102,7 +102,7 @@ function generateTerrainBox() {
 		var newBox = "";
 		for(var i = 0; i < lines.length; i++){
 
-		if(i != Math.floor(gameSize/2))
+		if(i != Math.ceil(gameSize/2))
 			newBox += lines[i];
 		else {
 			var left = lines[i].substr(0,2);
