@@ -93,10 +93,15 @@ function insertCharAt(c,x,y) {
 }
 
 function movePlayerAt(x,y) {
+
 	if(playerX == gameSize)
 		insertCharAt('_', playerX, playerY);
 	else
 		insertCharAt(' ', playerX, playerY);
+	if(x > gameSize)
+		x = gameSize;
+	if(x < 1)
+		x = 1;
 	playerX = x;
 	playerY = y;
 	insertCharAt('>', playerX, playerY);
@@ -105,13 +110,16 @@ function movePlayerAt(x,y) {
 function tilt(amount) {
 
 	amount = amount * sensitivity;
-
+	movePlayerAt(Math.ceil(gameSize/2 + amount), playerY);
+	/*
 	if(amount < 0)
 		for(var i = 0; i < -amount; i++)
 			up();
 	else 
 		for(var i = 0; i < amount; i++)
 			down();
+	*/
+
 }
 
 function up(){
