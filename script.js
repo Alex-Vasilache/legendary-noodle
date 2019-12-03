@@ -6,6 +6,8 @@ var playerX;
 var playerY;
 var initialBeta = -200;
 var sensitivity = 1/4;
+var score = 0;
+
 
 window.onload = start;
 
@@ -113,25 +115,7 @@ function tilt(amount) {
 
 	amount = amount * sensitivity;
 	movePlayerAt(Math.ceil(gameSize/2 + amount), playerY);
-	/*
-	if(amount < 0)
-		for(var i = 0; i < -amount; i++)
-			up();
-	else 
-		for(var i = 0; i < amount; i++)
-			down();
-	*/
 
-}
-
-function up(){
-	if(playerX-1 > 0)
-		movePlayerAt(playerX-1,playerY);
-}
-
-function down(){
-	if(playerX+1 <= gameSize)
-		movePlayerAt(playerX+1,playerY);
 }
 
 function stopGame() {
@@ -141,8 +125,10 @@ function stopGame() {
 function generateTerrain() {
 	if(stop == 1){	}
 	else {
-		generateTerrainBox();
-		setTimeout(generateTerrain, speed); 
+		document.getElementById("score").innerText= "Score: " + score;
+		score ++;
+		generateObstacleColumn();
+		setTimeout(generateTerrain, speed);
 	}
 }
 
@@ -168,4 +154,50 @@ function generateTerrainBox() {
 		}
 		document.getElementById("gameBox").innerText = newBox;
 		
+}
+
+function generateObstacleColumn() {
+
+	var lines = gameBox.innerText.split("\n");
+	var newBox = "";
+
+	gap = Math.round(Math.random() * (gameSize - 3));
+
+	
+	newBox += lines[0] + "\n";
+
+	if(score%10 == 0) {
+
+		for(var i = 1; i < lines.length ; i++) {
+			var left = lines[i].substr(0,2);
+			var right = lines[i].substr(3, lines[i].length-4);
+
+			if(i > gap  && i <= gap + 3)
+				if(i == gameSize)
+					newBox += left + right + "_|";
+				else
+					newBox += left + right + " |";
+			else
+				newBox += left + right + "||";
+
+			if(i != lines.length - 1)
+				newBox += "\n";
+		}
+	} else {
+
+		for(var i = 1; i < lines.length ; i++) {
+			var left = lines[i].substr(0,2);
+			var right = lines[i].substr(3, lines[i].length-4);
+
+			if(i == gameSize)
+				newBox += left + right + "_|";
+			else
+				newBox += left + right + " |";
+
+			if(i != lines.length - 1)
+				newBox += "\n";
+		}
+	}
+
+	document.getElementById("gameBox").innerText = newBox;
 }
