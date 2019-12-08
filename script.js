@@ -16,7 +16,6 @@ window.onload = start;
 
 function start() {
 	
-	document.getElementById("restart").disabled = true;
 	window.onresize = function() {
 		if (resize){
 			this.createGameBox();
@@ -46,8 +45,9 @@ function startGame() {
 	playerY = 1;
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	generateTerrain();
-	document.getElementById("start").disabled = true;
+	toggleDisableStatus();
 	document.getElementById("slider").hidden = true;
+	document.getElementById("start").setAttribute("onclick", "restart()");
 	//document.getElementById("hint").hidden = true;
 }
 
@@ -142,7 +142,6 @@ function restart() {
 	score = 0;
 	position = 0;
 	canMove = 1;
-	document.getElementById("restart").disabled = true;
 	createGameBox();
 	startGame();
 	
@@ -160,7 +159,7 @@ function generateTerrain() {
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
 		else {
-			document.getElementById("restart").disabled = false;
+			toggleDisableStatus();
 			stop == 1;
 			canMove = 0;
 			document.getElementById("hint").innerText= "Oh, nö! You lost!";
@@ -168,28 +167,18 @@ function generateTerrain() {
 	}
 }
 
-function generateTerrainBox() {
-	
-		var lines = gameBox.innerText.split("\n");
-		var newBox = "";
-		for(var i = 0; i < lines.length; i++){
+function toggleDisableStatus() {
 
-		if(i != Math.ceil(gameSize/2))
-			newBox += lines[i];
-		else {
-			var left = lines[i].substr(0,2);
-			var right = lines[i].substr(3, lines[i].length-4);
-		if(Math.round(Math.random() * 10) == 1)
-			newBox += left + right + "+|";
-		else
-			newBox += left + right + "_|";
-		}
+	var startButton = document.getElementById("start");
+	var disabled = startButton.disabled;
+	startButton.disabled = !disabled;
 
-		if(i != lines.length - 1)
-			newBox += "\n";
-		}
-		document.getElementById("gameBox").innerText = newBox;
-		
+	if(disabled){
+		startButton.style.backgroundColor = "#4CAF50";
+	} else {
+		startButton.style.backgroundColor = "#dcefde";
+	}
+
 }
 
 function generateColumn() {
