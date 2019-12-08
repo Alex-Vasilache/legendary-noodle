@@ -19,6 +19,7 @@ function start() {
 	window.onresize = function() {
 		if (resize){
 			this.createGameBox();
+			movePlayerAt(Math.ceil(gameSize/2), 1);
 		}
 	}
 	//document.getElementById("orient").innerText = "Gama: null" + "\nBeta: null";
@@ -66,8 +67,8 @@ function setUpOrientation() {
 
 function createGameBox() {
 
-	var width = window.innerWidth / 26;
-	var height = window.innerHeight / 26;
+	var width = window.innerWidth / 25;
+	var height = window.innerHeight / 30;
 	var font = Math.ceil(Math.min(width, height));
 	gameSize = 25;
 	
