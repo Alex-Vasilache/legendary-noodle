@@ -26,6 +26,11 @@
     font-size: 1em;
 }
 
+#speed {
+    text-align: center;
+    font-size: 1.5em;
+}
+
 .button {
     background-color: #4CAF50; /* Green */
     border: none;
