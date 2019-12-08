@@ -40,6 +40,7 @@ function startGame() {
 	resize = 0;
 	stop = 0;
 	speed = 100;
+	initialBeta = -200;
 	createGameBox();
 	playerX = Math.ceil(gameSize/2);
 	playerY = 1;
