@@ -9,6 +9,7 @@ var initialGamma = -200;
 var sensitivity = 1/2;
 var position = 0;
 var score = 0;
+var canMove = 1;
 
 
 window.onload = start;
@@ -52,16 +53,18 @@ function startGame() {
 
 function setUpOrientation() {
 	window.ondeviceorientation = function(){
-		var beta = Math.round(event.beta); // [-180, 180]
-		var gamma = Math.round(event.gamma); // [-90, 90]
-		//document.getElementById("orient").innerText = "Gama: " + gamma + "\nBeta: " + beta ;
-		//TODO if in landscape change to gamma
-		if(initialBeta == -200){
-			initialBeta = beta;
-			initialGamma = gamma;
+		if(canMove) {
+			var beta = Math.round(event.beta); // [-180, 180]
+			var gamma = Math.round(event.gamma); // [-90, 90]
+			//document.getElementById("orient").innerText = "Gama: " + gamma + "\nBeta: " + beta ;
+			//TODO if in landscape change to gamma
+			if(initialBeta == -200){
+				initialBeta = beta;
+				initialGamma = gamma;
+			}
+			
+			tilt(beta - initialBeta);
 		}
-		
-		tilt(beta - initialBeta);
 	}
 }
 
@@ -137,7 +140,8 @@ function tilt(amount) {
 
 function restart() {
 	score = 0;
-	position = 0;	
+	position = 0;
+	canMove = 1;
 	document.getElementById("restart").disabled = true;
 	createGameBox();
 	startGame();
@@ -158,6 +162,8 @@ function generateTerrain() {
 		else {
 			document.getElementById("restart").disabled = false;
 			stop == 1;
+			canMove = 0;
+			document.getElementById("hint").innerText= "Oh, nö! You lost!";
 		}
 	}
 }
