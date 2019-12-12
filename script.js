@@ -1,7 +1,7 @@
 var stop = 1;
 var resize = 1;
 var speed = 100;
-var gameSize = 16;
+var gameSize = 25;
 var playerX;
 var playerY;
 var initialBeta = -200;
@@ -10,11 +10,16 @@ var sensitivity = 1/2;
 var position = 0;
 var score = 0;
 var canMove = 1;
+var obstacleGap = 10;
+var columnGapSize = 6;
 
 
-window.onload = start;
+window.onload = setUpPage;
 
-function start() {
+/**
+ * Set up Page
+ */
+function setUpPage() {
 	
 	window.onresize = function() {
 		if (resize){
@@ -22,43 +27,66 @@ function start() {
 			movePlayerAt(Math.ceil(gameSize/2), 1);
 		}
 	}
-	//document.getElementById("orient").innerText = "Gama: null" + "\nBeta: null";
+
 	createGameBox();
 	
 	playerX = Math.ceil(gameSize/2);
 	playerY = 1;
+
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	
 	setUpOrientation();
+
 	document.getElementById("slider").oninput = function () {
 		sensitivity = this.value/100;
 		document.getElementById("score").innerText= "Sensitivity: " + sensitivity;
 	}
 }
 
+/**
+ * Initialize variables, hide hint text and slider and start game
+ */
 function startGame() {
 	resize = 0;
 	stop = 0;
 	speed = 100;
 	initialBeta = -200;
+
 	createGameBox();
-	playerX = Math.ceil(gameSize/2);
-	playerY = 1;
+	
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	generateTerrain();
 	toggleDisableStatus();
+
 	document.getElementById("slider").hidden = true;
 	document.getElementById("start").setAttribute("onclick", "restart()");
 	document.getElementById("hint").innerText = "";
 }
 
+/**
+ * Starts a new game
+ */
+function restart() {
+	
+	score = 0;
+	position = 0;
+	canMove = 1;
+	createGameBox();
+	startGame();
+	
+}
+
+/**
+ * Set up the device oreientation detection
+ */
 function setUpOrientation() {
+
 	window.ondeviceorientation = function(){
 		if(canMove) {
-			var beta = Math.round(event.beta); // [-180, 180]
-			var gamma = Math.round(event.gamma); // [-90, 90]
-			//document.getElementById("orient").innerText = "Gama: " + gamma + "\nBeta: " + beta ;
-			//TODO if in landscape change to gamma
+			var beta = Math.round(event.beta); 
+			var gamma = Math.round(event.gamma);
+			
+			//Recalibrate orientation sensor
 			if(initialBeta == -200){
 				initialBeta = beta;
 				initialGamma = gamma;
@@ -69,36 +97,45 @@ function setUpOrientation() {
 	}
 }
 
+/**
+ * Create a game box and adjust font size according to window size
+ */
 function createGameBox() {
 
 	var width = window.innerWidth / 25;
 	var height = window.innerHeight / 30;
 	var font = Math.ceil(Math.min(width, height));
-	gameSize = 25;
-	
 
 	var newBox = "";
 	var margin = "";
-	for(var i = 1; i <= gameSize; i ++){
-		margin += "_";
-	}
+
+	for(var i = 1; i <= gameSize; i ++) {margin += "_";}
+
 	newBox += "" + margin + "\n";
 
 	var line = "|";
-	for(var i = 1; i <= gameSize; i ++){
-		line += " ";
-	}
+
+	for(var i = 1; i <= gameSize; i ++) {line += " ";}
+
 	line += "|\n";
 
-	for(var i = 1; i < gameSize; i ++){
-		newBox += line;
-	}
+	for(var i = 1; i < gameSize; i ++) {newBox += line;}
+
 	newBox += "|" + margin + "|";
+
 	document.getElementById("gameBox").innerText = newBox;
-	document.getElementById("gameBox").setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: 'Courier New', Courier, monospace; font-size: " + font + "px; white-space: pre;");
+	document.getElementById("gameBox").setAttribute("style", "line-height: 0.8em; letter-spacing: 0.1em; font-family: " +
+	"'Courier New', Courier, monospace; font-size: " + font + "px; white-space: pre;");
 }
 
+/**
+ * Inserts a character at a specified position inside the game box
+ * @param {Character to be insrted} c 
+ * @param {Position on the X axis where the character should be placed} x 
+ * @param {Position on the X axis where the character should be placed} y 
+ */
 function insertCharAt(c,x,y) {
+	
 	var lines = document.getElementById("gameBox").innerText.split("\n");
 	var newBox = "";
 	for(var i = 0; i < lines.length; i++){
@@ -117,6 +154,11 @@ function insertCharAt(c,x,y) {
 	document.getElementById("gameBox").innerText = newBox;
 }
 
+/**
+ * Repositions player character at specified position
+ * @param {New X position of player} x 
+ * @param {New Y position of player} y 
+ */
 function movePlayerAt(x,y) {
 
 	if(playerX == gameSize)
@@ -132,6 +174,10 @@ function movePlayerAt(x,y) {
 	insertCharAt('>', playerX, playerY);
 }
 
+/**
+ * Moves the player up or down inside the game box
+ * @param {Specifies the amount by which the player moves on the vertical axis} amount 
+ */
 function tilt(amount) {
 
 	amount = amount * sensitivity;
@@ -139,17 +185,13 @@ function tilt(amount) {
 
 }
 
-function restart() {
-	score = 0;
-	position = 0;
-	canMove = 1;
-	createGameBox();
-	startGame();
-	
-}
-
+/**
+ * Moves the game box content to the left by one unit and generates a new column.
+ * In case of collision the game is stopped.
+ */
 function generateTerrain() {
-	if(stop == 1){	}
+
+	if(stop == 1){}
 	else {
 		document.getElementById("score").innerText= "Score: " + score;
 		position ++;
@@ -168,25 +210,15 @@ function generateTerrain() {
 	}
 }
 
-function toggleDisableStatus() {
-
-	var startButton = document.getElementById("start");
-	var disabled = startButton.disabled;
-	startButton.disabled = !disabled;
-
-	if(disabled){
-		startButton.style.backgroundColor = "#4CAF50";
-	} else {
-		startButton.style.backgroundColor = "#dcefde";
-	}
-
-}
-
+/**
+ * Generates a new column for the game box, introducing a new obstacle at an interval specified by the variable obstacleGap.
+ * Returns false if a collision was detected and true otherwise.
+ */
 function generateColumn() {
 	var lines = document.getElementById("gameBox").innerText.split("\n");
 	var newBox = lines[0] + "\n";
 
-	gap = Math.round(Math.random() * (gameSize - 3));
+	columnGap = Math.round(Math.random() * (gameSize - columnGapSize));
 	
 	for(var i = 1; i <= gameSize; i ++) {
 		newBox += "|";
@@ -201,10 +233,8 @@ function generateColumn() {
 				newBox += ">" + lines[i].substr(3, gameSize-2);
 		}
 
-			
-
-		if(position % 10 == 0) {
-			if(i > gap  && i <= gap + 3)
+		if(position % obstacleGap == 0) {
+			if(i > columnGap  && i <= columnGap + columnGapSize)
 				if(i == gameSize)
 					newBox += "_|";
 				else
@@ -221,6 +251,24 @@ function generateColumn() {
 		if(i != gameSize )
 			newBox += "\n";
 	}
+	
 	document.getElementById("gameBox").innerText = newBox;
 	return true;
+}
+
+/**
+ * Toggles the enable status of the Start button
+ */
+function toggleDisableStatus() {
+
+	var startButton = document.getElementById("start");
+	var disabled = startButton.disabled;
+	startButton.disabled = !disabled;
+
+	if(disabled){
+		startButton.style.backgroundColor = "#4CAF50";
+	} else {
+		startButton.style.backgroundColor = "#dcefde";
+	}
+
 }
