@@ -5,7 +5,6 @@ var gameSize = 25;
 var playerX;
 var playerY;
 var initialBeta = -200;
-var initialGamma = -200;
 var sensitivity = 1/2;
 var position = 0;
 var score = 0;
@@ -84,12 +83,10 @@ function setUpOrientation() {
 	window.ondeviceorientation = function(){
 		if(canMove) {
 			var beta = Math.round(event.beta); 
-			var gamma = Math.round(event.gamma);
 			
 			//Recalibrate orientation sensor
 			if(initialBeta == -200){
 				initialBeta = beta;
-				initialGamma = gamma;
 			}
 			
 			tilt(beta - initialBeta);
