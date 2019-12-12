@@ -196,9 +196,14 @@ function generateTerrain() {
 		document.getElementById("score").innerText= "Score: " + score;
 		position ++;
 		score = Math.floor(score + 1 + (100 - speed) * 1/50);
+
 		if(speed > 40)
 			speed -= 1/30;
+
+		columnGapSize = Math.ceil((speed - 40)/20) + 3;
+
 		document.getElementById("speed").innerText = "Speed: " +  Math.floor(140 - speed);
+
 		if(generateColumn())
 			setTimeout(generateTerrain, speed);
 		else {
@@ -251,7 +256,7 @@ function generateColumn() {
 		if(i != gameSize )
 			newBox += "\n";
 	}
-	
+
 	document.getElementById("gameBox").innerText = newBox;
 	return true;
 }
