@@ -14,7 +14,7 @@ var columnGapSize = 6;
 
 
 window.onload = setUpPage;
-
+screen.lockOrientation('portrait');
 /**
  * Set up Page
  */
@@ -35,6 +35,7 @@ function setUpPage() {
 	movePlayerAt(Math.ceil(gameSize/2), 1);
 	
 	setUpOrientation();
+	
 
 	document.getElementById("slider").oninput = function () {
 		sensitivity = this.value/100;
