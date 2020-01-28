@@ -14,7 +14,7 @@ var columnGapSize = 6;
 
 
 window.onload = setUpPage;
-screen.lockOrientation('portrait');
+screen.orientation.lock('portrait-primary');
 /**
  * Set up Page
  */
