@@ -12,9 +12,7 @@ var canMove = 1;
 var obstacleGap = 10;
 var columnGapSize = 6;
 
-
 window.onload = setUpPage;
-screen.orientation.lock('portrait-primary');
 /**
  * Set up Page
  */
